@@ -2,13 +2,16 @@ import { View, Text, ScrollView, Image, StyleSheet, Pressable, ImageBackground }
 import { Link, router } from 'expo-router';
 import { format } from 'date-fns';
 import { MapPin, Calendar, Clock, Plane, ArrowRight } from 'lucide-react-native';
+import { useState } from 'react';
 import { Logo } from '@/components/Logo';
+import { AirlineSelector } from '@/components/AirlineSelector';
 import { DESTINATIONS, UPCOMING_FLIGHTS } from '@/data/flights';
 import { CURRENT_USER } from '@/data/user';
 import { useTheme } from '@/context/ThemeContext';
 
 export default function HomeScreen() {
   const { colors } = useTheme();
+  const [showAirlineSelector, setShowAirlineSelector] = useState(false);
 
   const styles = StyleSheet.create({
     container: {
@@ -21,13 +24,23 @@ export default function HomeScreen() {
     heroOverlay: {
       flex: 1,
       backgroundColor: 'rgba(43, 50, 58, 0.85)',
-      padding: 24,
+      padding: 4,
       paddingTop: 60,
+    },
+    headerActions: {
       alignItems: 'center',
+      marginBottom: 24,
+    },
+    settingsButton: {
+      width: 40,
+      height: 40,
+      backgroundColor: colors.border,
+      borderRadius: 20,
+      alignItems: 'center',
+      justifyContent: 'center',
     },
     welcomeContainer: {
       alignItems: 'center',
-      marginTop: 24,
     },
     greeting: {
       fontSize: 16,
@@ -243,7 +256,11 @@ export default function HomeScreen() {
         style={styles.hero}
       >
         <View style={styles.heroOverlay}>
-          <Logo size={180} />
+          <View style={styles.headerActions}>
+            <Pressable onPress={() => setShowAirlineSelector(true)}>
+              <Logo size={180} />
+            </Pressable>
+          </View>
           <View style={styles.welcomeContainer}>
             <Text style={styles.greeting}>Welcome back,</Text>
             <Text style={styles.name}>{CURRENT_USER.name}</Text>
@@ -360,6 +377,11 @@ export default function HomeScreen() {
           ))}
         </ScrollView>
       </View>
+
+      <AirlineSelector
+        visible={showAirlineSelector}
+        onClose={() => setShowAirlineSelector(false)}
+      />
     </ScrollView>
   );
 }
