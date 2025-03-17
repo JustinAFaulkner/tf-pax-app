@@ -1,7 +1,8 @@
 import { View, Text, StyleSheet, Image, Pressable, ScrollView } from 'react-native';
-import { Settings, CreditCard, Gift, Phone, Mail, ChevronRight, Sun, Moon } from 'lucide-react-native';
+import { Settings, CreditCard, Gift, Phone, Mail, ChevronRight, Sun, Moon, Plane } from 'lucide-react-native';
 import { CURRENT_USER } from '@/data/user';
 import { useTheme } from '@/context/ThemeContext';
+import type { AirlineTheme } from '@/data/constants/theme';
 
 const MENU_ITEMS = [
   {
@@ -21,8 +22,13 @@ const MENU_ITEMS = [
   },
 ];
 
+const AIRLINES: { id: AirlineTheme; name: string }[] = [
+  { id: 'sounds', name: 'Sounds Air' },
+  { id: 'toa', name: 'Tropic Ocean Airways' },
+];
+
 export default function ProfileScreen() {
-  const { colors, theme, toggleTheme } = useTheme();
+  const { colors, theme, toggleTheme, airline, setAirline } = useTheme();
 
   const styles = StyleSheet.create({
     container: {
@@ -147,6 +153,34 @@ export default function ProfileScreen() {
       color: colors.text.primary,
       fontFamily: 'Inter-SemiBold',
     },
+    airlineSelector: {
+      backgroundColor: colors.border,
+      padding: 16,
+      marginTop: 24,
+      borderRadius: 12,
+    },
+    airlineSelectorTitle: {
+      fontSize: 16,
+      color: colors.text.primary,
+      fontFamily: 'Inter-SemiBold',
+      marginBottom: 12,
+    },
+    airlineOption: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      padding: 12,
+      borderRadius: 8,
+      marginBottom: 8,
+    },
+    airlineOptionActive: {
+      backgroundColor: colors.accent,
+    },
+    airlineOptionText: {
+      marginLeft: 12,
+      fontSize: 16,
+      color: colors.text.primary,
+      fontFamily: 'Inter-Regular',
+    },
     logoutButton: {
       margin: 24,
       backgroundColor: colors.status.error,
@@ -193,6 +227,23 @@ export default function ProfileScreen() {
           <Mail size={16} color={colors.text.secondary} />
           <Text style={styles.contactText}>{CURRENT_USER.email}</Text>
         </View>
+      </View>
+
+      <View style={styles.airlineSelector}>
+        <Text style={styles.airlineSelectorTitle}>Select Airline</Text>
+        {AIRLINES.map((airlineOption) => (
+          <Pressable
+            key={airlineOption.id}
+            style={[
+              styles.airlineOption,
+              airline === airlineOption.id && styles.airlineOptionActive,
+            ]}
+            onPress={() => setAirline(airlineOption.id)}
+          >
+            <Plane size={20} color={colors.text.primary} />
+            <Text style={styles.airlineOptionText}>{airlineOption.name}</Text>
+          </Pressable>
+        ))}
       </View>
 
       <Pressable style={styles.themeToggle} onPress={toggleTheme}>

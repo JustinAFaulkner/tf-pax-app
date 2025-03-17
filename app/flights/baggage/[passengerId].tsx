@@ -3,7 +3,7 @@ import { useLocalSearchParams, router } from 'expo-router';
 import { Package, ArrowLeft, Plane, Clock, Scale } from 'lucide-react-native';
 import { format } from 'date-fns';
 import { BOOKINGS, getBaggageStatusText } from '@/data/flights';
-import { CONTACT, BAGGAGE_PRICING } from '@/data/constants';
+import { CONTACT, BAGGAGE_PRICING } from '@/data/constants/soundsprod';
 import { useTheme } from '@/context/ThemeContext';
 
 export default function BaggageDetails() {

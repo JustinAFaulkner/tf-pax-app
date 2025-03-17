@@ -448,7 +448,7 @@ export default function BookScreen() {
               key={fare.id}
               style={styles.fareCard}
               onPress={() => {
-                router.push('/book/confirm');
+                //router.push('/book/confirm');
               }}
             >
               <View style={styles.fareHeader}>
